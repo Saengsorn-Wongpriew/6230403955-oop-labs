@@ -21,4 +21,4 @@ elif age >= 1 and age <= 9:
     gen = '"Alpha"'
 else:
     gen = '"unknown"'
-print(name, "is", age, "years old. You are generation", gen)
+print(f"{name} is {age} years old. You are generation {gen}")
