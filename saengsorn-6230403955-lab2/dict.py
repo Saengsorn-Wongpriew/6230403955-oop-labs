@@ -9,10 +9,7 @@ numbers["Anna Cooper"] = "+27 555 3237"
 
 print(numbers["Bob Stone"])
 
-if "Bob Stone" in numbers:
-    print(numbers["Bob Stone"])
-else:
-    print("None")
+print(numbers.get("Bob Stone"))
 
 print(numbers.keys())
 print(numbers.values())
