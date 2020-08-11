@@ -15,17 +15,11 @@ print("b is", b)
 print("a | b is", c)
 print("a - b is", d)
 
-a = []
-for n in range(20):
-    a.append(n)
+a = list(range(20))
 print(a)
 
-b = []
-for n in range(3, 13):
-    b.append(n)
+b = list(range(3, 13))
 print(b)
 
-c = []
-for n in range(2, 53, 3):
-    c.append(n)
-print(c)
+a = list(range(2, 53, 3))
+print(a)
