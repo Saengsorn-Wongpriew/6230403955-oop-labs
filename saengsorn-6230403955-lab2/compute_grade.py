@@ -1,5 +1,4 @@
 name = input("Studen Name: ")
-
 grade = ""
 
 
@@ -16,14 +15,12 @@ def check_valid(mark):
         valid = 0
     return valid
 
-correct = 0
 
+correct = 0
 while not correct:
     midterm_exam = input("Please enter midterm mark (0-100): ")
     correct = check_valid(midterm_exam)
-
 correct = 0
-
 while not correct:
     final_exam = input("Please enter final mark (0-100): ")
     correct = check_valid(final_exam)
