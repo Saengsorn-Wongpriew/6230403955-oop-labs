@@ -1,13 +1,12 @@
-import pdb
-
-
 is_negative = False
 while not is_negative:
-    devidend = input("Please enter the devidend: ")
-    devisor = input("Please enter the devisor: ")
+    devidend = int(input("Please enter the devidend: "))
+    devisor = int(input("Please enter the devisor: "))
 
-    pdb.set_trace()
     if devidend < 0 or devisor < 0:
         is_negative = True
     else:
-        print(devidend / devisor)
+        if devisor == 0:
+            print("Cannot perform devision by zero")
+        else:
+            print(devidend / devisor)
