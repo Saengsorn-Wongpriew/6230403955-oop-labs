@@ -1,0 +1,6 @@
+elements = (2, 123.4567, 10000, 12345.67)
+first_element = "file_{:03}:".format(elements[0])
+second_element = "{:.2f}".format(elements[1])
+third_element = "{:.2e}".format(elements[2])
+fourth_element = "{:.2e}".format(elements[3])
+print(f"{first_element} {second_element}, {third_element}, {fourth_element}")
