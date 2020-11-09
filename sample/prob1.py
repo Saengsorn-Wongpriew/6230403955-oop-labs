@@ -25,7 +25,7 @@ class SimpleForm(QWidget):
         edit_name = QLineEdit()
         edit_name.setMinimumWidth(300)
         fbox.addRow(label_name, edit_name)
-        
+
         hbox = QHBoxLayout()
         radio_male = QRadioButton("Male")
         radio_female = QRadioButton("Female")
