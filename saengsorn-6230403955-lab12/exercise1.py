@@ -8,62 +8,67 @@ from PyQt5.Qt import Qt
 class Calulator(QWidget):
     def __init__(self):
         super().__init__()
-        self.val_1 = 50
-        self.val_2 = 50
-        self.val_result = self.val_1 + self.val_2
+        self.label_val = []
+        self.slider_val = []
+        self.vals = [50, 50]
+        self.val_result = 0
         self.oper = -1
         self.cur_but = None
 
         self.init_ui()
 
     def init_ui(self):
-        f_layout = QFormLayout()
+        self.f_layout = QFormLayout()
 
-        val_1_slid = QSlider(Qt.Horizontal)
-        val_1_slid.setMinimum(0)
-        val_1_slid.setMaximum(100)
-        val_1_slid.setValue(self.val_1)
-        val_1_slid.setTickPosition(QSlider.TicksBelow)
-        val_1_slid.setTickInterval(5)
+        self.new_label("Arial", 20, self.vals[0])
+        self.new_slider(self.vals[0])
+        self.f_layout.addRow(self.label_val[0], self.slider_val[0])
 
-        self.label_1 = QLabel()
-        self.label_1.setFont(QFont("Arial", 20))
-        self.label_1.setStyleSheet("color: blue")
-        self.label_1.setText(str(self.val_1))
+        self.new_label("Arial", 20, self.vals[1])
+        self.new_slider(self.vals[1])
+        self.f_layout.addRow(self.label_val[1], self.slider_val[1])
 
-        f_layout.addRow(self.label_1, val_1_slid)
-
-        val_1_slid.valueChanged[int].connect(
-            self.change_val_1
+        self.slider_val[0].valueChanged[int].connect(
+            lambda x: self.change_val(x, 0)
         )
-        val_2_slid = QSlider(Qt.Horizontal)
-        val_2_slid.setMinimum(0)
-        val_2_slid.setMaximum(100)
-        val_2_slid.setValue(self.val_2)
-        val_2_slid.setTickPosition(QSlider.TicksBelow)
-        val_2_slid.setTickInterval(5)
-
-        self.label_2 = QLabel()
-        self.label_2.setFont(QFont("Arial", 20))
-        self.label_2.setStyleSheet("color: blue")
-        self.label_2.setText(str(self.val_2))
-
-        f_layout.addRow(self.label_2, val_2_slid)
-
-        val_2_slid.valueChanged[int].connect(
-            self.change_val_2
+        self.slider_val[1].valueChanged[int].connect(
+            lambda x: self.change_val(x, 1)
         )
 
-        titles = ['Add', 'Subtract', 'Multiply', 'Divide']
-        buttons = [QPushButton(title) for title in titles]
+        button_names = ['Add', 'Subtract', 'Multiply', 'Divide']
+        self.create_buttons(button_names)
 
+        self.result_line()
+
+        self.setLayout(self.f_layout)
+        self.setWindowTitle('Simple Calculator')
+        self.show()
+
+    def new_label(self, font, size, default_value):
+        a_label = QLabel()
+        a_label.setFont(QFont(font, size))
+        a_label.setStyleSheet("color: blue")
+        a_label.setText(str(default_value))
+        self.label_val.append(a_label)
+
+    def new_slider(self, default_value):
+        slider = QSlider(Qt.Horizontal)
+        slider.setMinimum(0)
+        slider.setMaximum(100)
+        slider.setValue(default_value)
+        slider.setTickPosition(QSlider.TicksBelow)
+        slider.setTickInterval(5)
+        self.slider_val.append(slider)
+
+    def create_buttons(self, names):
+        buttons = [QPushButton(title) for title in names]
         hbox = QHBoxLayout()
-
         for b in buttons:
             hbox.addWidget(b)
-            f_layout.addRow(hbox)
+            self.f_layout.addRow(hbox)
             b.clicked.connect(self.but_change)
 
+    def result_line(self):
         label_res = QLabel('Result')
         label_res.setFont(QFont("Arial", 15))
 
@@ -75,36 +80,28 @@ class Calulator(QWidget):
         )
         self.line_cal_out.setAlignment(Qt.AlignRight)
         self.line_cal_out.setMinimumSize(100, 25)
+        self.f_layout.addRow(label_res, self.line_cal_out)
 
-        f_layout.addRow(label_res, self.line_cal_out)
-
-        self.setLayout(f_layout)
-        self.setWindowTitle('Simple Calculator')
-        self.show()
-
-    def change_val_1(self, value):
-        self.label_1.setText(str(value))
-        self.val_1 = value
-        self.math_cal()
-
-    def change_val_2(self, value):
-        self.label_2.setText(str(value))
-        self.val_2 = value
+    def change_val(self, value, n):
+        self.label_val[n].setText(str(value))
+        self.vals[n] = value
         self.math_cal()
 
     def math_cal(self):
         if self.oper >= 0:
             if self.oper == 0:
-                self.val_result = str(self.val_1 + self.val_2)
+                self.val_result = str(self.vals[0] + self.vals[1])
             elif self.oper == 1:
-                self.val_result = str(self.val_1 - self.val_2)
+                self.val_result = str(self.vals[0] - self.vals[1])
             elif self.oper == 2:
-                self.val_result = str(self.val_1 * self.val_2)
+                self.val_result = str(self.vals[0] * self.vals[1])
             elif self.oper == 3:
-                if self.val_2:
-                    self.val_result = "{0:.3g}".format(self.val_1 / self.val_2)
+                if self.vals[1]:
+                    self.val_result = "{0:.3g}".format(
+                        self.vals[0] / self.vals[1]
+                    )
                 else:
-                    self.val_result = "No Error"
+                    self.val_result = "Cannot Divide by 0"
             self.line_cal_out.setText(self.val_result)
 
     def but_change(self):
